@@ -29,14 +29,15 @@ class UserStream(EventStream):
         except AttributeError:
             pass
 
-        await self.channel.put(json.dumps({
-            'text': data.text,
-            'image': image,
-            'username': data.user.screen_name,
-        }))
+        for channel in self.channels:
+            await channel.put(json.dumps({
+                'text': data.text,
+                'image': image,
+                'username': data.user.screen_name,
+            }))
 
 
-def start_client(channel):
+def start_client(channels):
     client = Client(
         consumer_key=os.environ['CONSUMER_KEY'],
         consumer_secret=os.environ['CONSUMER_SECRET'],
@@ -44,6 +45,6 @@ def start_client(channel):
         access_token_secret=os.environ['ACCESS_TOKEN_SECRET'],
     )
 
-    client.channel = channel
+    client.channels = channels
 
     return client.run_tasks()
