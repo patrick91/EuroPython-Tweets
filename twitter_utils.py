@@ -11,7 +11,7 @@ class Client(PeonyClient):
 @Client.event_stream
 class UserStream(EventStream):
     def stream_request(self):
-        return self.stream.statuses.filter.post(track="#europython")
+        return self.stream.statuses.filter.post(track="#europython,europython")
 
     @events.on_connect.handler
     def connection(self, data):
