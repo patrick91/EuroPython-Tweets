@@ -7,8 +7,8 @@ const getTweet = (tweet, index) => {
     <Tweet
       key={index}
       text={tweet.text}
-      image={tweet.image}
-      username={tweet.username}
+      image={tweet.entities.media && tweet.entities.media[0].media_url}
+      username={tweet.user.screen_name}
     />
   );
 };
@@ -20,13 +20,28 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    var evtSource = new EventSource("http://ep.patrick.wtf:5000/tweets");
-    evtSource.onmessage = this.handleNewMessage;
+    const conn = new WebSocket("ws://" + window.location.host + "/ws");
+    // const conn = new WebSocket("ws://localhost:5000/ws");
+
+    conn.onopen = function(e) {
+      console.log("on open");
+    };
+
+    conn.onclose = function(e) {
+      console.log("on close");
+    };
+
+    conn.onmessage = this.handleNewMessage;
   }
 
   handleNewMessage = e => {
+    if (!e.data) {
+      return;
+    }
+
     const tweet = JSON.parse(e.data);
 
+    console.log(tweet.entities.media);
     this.setState(state => ({
       ...state,
       tweets: [tweet, ...state.tweets]
