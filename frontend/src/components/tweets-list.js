@@ -37,6 +37,11 @@ class List extends React.Component {
     return (
       <div>
         {this.state.tweets.map(getTweet)}
+
+        <Tweet
+          text="Tweets with #EuroPython will be shown here!"
+          username="europython"
+        />
       </div>
     );
   }
