@@ -28,4 +28,4 @@ asyncio.async(start_client(app.channel))
 
 app.router.add_route('GET', '/tweets', tweets)
 
-web.run_app(app, host='127.0.0.1', port=5000)
+web.run_app(app, host='0.0.0.0', port=5000)

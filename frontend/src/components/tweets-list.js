@@ -20,7 +20,7 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    var evtSource = new EventSource("/tweets");
+    var evtSource = new EventSource("http://ep.patrick.wtf:5000/tweets");
     evtSource.onmessage = this.handleNewMessage;
   }
 
