@@ -19,8 +19,6 @@ class UserStream(EventStream):
 
     @events.on_tweet.handler
     async def tweet(self, data):
-        # print(data.text)
-
         if data.retweeted or 'RT @' in data.text:
             return
 
